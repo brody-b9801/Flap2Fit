@@ -442,6 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 973253246}
   - component: {fileID: 973253245}
+  - component: {fileID: 973253247}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -461,14 +462,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd903446592a212458bdcf11f9a69be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PipeController
-  numPipes: 5
-  distanceBetweenPipes: 5
-  gapBetweenPipes: 5
-  pipeHeight: 10
-  pipeHeightDistribution: 3
+  numBarriers: 5
+  distanceBetweenBarriers: 5
+  gapBetweenBarriers: 5
+  barrierHeight: 10
+  barrierHeightDistribution: 3
   startDistFromPlayer: 10
-  pipePrefab: {fileID: 2980541365818312028, guid: 4572160f5b571fc489aeef5e4bb59f38, type: 3}
-  pipeInitMoveSpeed: 1
+  barrierPrefab: {fileID: 2980541365818312028, guid: 4572160f5b571fc489aeef5e4bb59f38, type: 3}
+  barrierInitMoveSpeed: 1
   playerPrefab: {fileID: 361325207064819639, guid: 0ffd2d9198984fe408a1b2adee47686f, type: 3}
 --- !u!4 &973253246
 Transform:
@@ -485,6 +486,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &973253247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973253244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d645e08013d615446985054d356d795c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputSystem
+  testingWithoutMotion: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

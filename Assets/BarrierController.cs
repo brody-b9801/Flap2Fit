@@ -41,10 +41,17 @@ public class BarrierController : MonoBehaviour
     private float initialBarrierOffset;
 
     private float getRandHeight() => Random.Range(-barrierHeightDistribution, barrierHeightDistribution);
+    private bool respawnInput() => Input.GetKeyDown(KeyCode.R);
+    public GameObject getBird() => bird.gameObject;
+
     void Awake()
     {
         cam = Camera.main.transform;
+        ResetGame();
+    }
 
+    private void ResetGame()
+    {
         barriers = new barrierInfo[numBarriers];
         initialBarrierPose = Vector3.forward * startDistFromPlayer;
         for (uint i = 0; i < numBarriers; i++)
@@ -72,12 +79,20 @@ public class BarrierController : MonoBehaviour
         Renderer topR = barriers[0].barrier.GetChild(0).GetComponent<Renderer>();
         Renderer bottomR = barriers[0].barrier.GetChild(1).GetComponent<Renderer>();
         float gapCenter = (bottomR.bounds.max.y + topR.bounds.min.y) * 0.5f;
-
+        
+        if (bird) Destroy(bird);
         bird = Instantiate(playerPrefab, Vector3.up * gapCenter, Quaternion.identity).transform;
-     }
+    }
 
     void Update()
     {
+        BirdController bc = bird.GetComponent<BirdController>();
+        if (bc.isDead())
+        {
+            if (respawnInput()) bc.respawn();
+            else return;
+        }
+
         float t = (Time.time - Time.fixedTime) / Time.fixedDeltaTime;
         for (int i = 0; i < numBarriers; i++)
         {
@@ -98,6 +113,7 @@ public class BarrierController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (bird.GetComponent<BirdController>().isDead()) return;
         cam.position = bird.position - Vector3.forward * distanceBetweenBarriers * 1.5f;
         for (uint i = 0; i < numBarriers; i++)
         {
