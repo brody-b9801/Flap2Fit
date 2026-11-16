@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,27 +17,23 @@ public class InputSystem : MonoBehaviour
     private float avg_prev;
     private float prev_time;
 
+    [System.Serializable]
     private struct landmark
     {
-        public float X;
-        public float Y;
-        public float Z;
-        public bool visible;
+        public float x;
+        public float y;
+        public float z;
+        public float visibility;
         private const float visibilityThreshold = 0.5f;
 
-        public landmark(float x, float y, float z, float visibility)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            visible = visibility >= visibilityThreshold;
-        }
+        public bool visible => visibility >= visibilityThreshold;
     }
 
+    [System.Serializable]
     private struct landmarkContainer
     {
-        public float currTime;
-        public bool playerVisible;
+        public float currentTime;
+        public bool personDetected;
         public List<landmark> landmarks;
     }
 
@@ -44,7 +41,7 @@ public class InputSystem : MonoBehaviour
     {
         uiManager = FindFirstObjectByType<UIManager>();
         DontDestroyOnLoad(this);
-        bc = GetComponent<BirdController>();
+        bc = GetComponent<BarrierController>().getBird().GetComponent<BirdController>();
     }
 
     public void OnFlap(InputAction.CallbackContext context)
@@ -62,7 +59,7 @@ public class InputSystem : MonoBehaviour
 
     private void ApplyMotionInput(landmarkContainer input)
     {
-        if (!input.playerVisible)
+        if (!input.personDetected)
         {
             if (!paused) Pause(true);
             return;
@@ -84,15 +81,15 @@ public class InputSystem : MonoBehaviour
         }
         
         if (paused) Pause(false);
-        Vector3 l_shoulderVec = new Vector3(l_shoulder.X, l_shoulder.Y, l_shoulder.Z);
-        Vector3 r_shoulderVec = new Vector3(r_shoulder.X, r_shoulder.Y, r_shoulder.Z);
+        Vector3 l_shoulderVec = new Vector3(l_shoulder.x, l_shoulder.y, l_shoulder.z);
+        Vector3 r_shoulderVec = new Vector3(r_shoulder.x, r_shoulder.y, r_shoulder.z);
 
-        Vector3 l_shoulderToWrist = new Vector3(l_wrist.X, l_wrist.Y, l_wrist.Z) - l_shoulderVec;
-        Vector3 r_shoulderToWrist = new Vector3(r_wrist.X, r_wrist.Y, r_wrist.Z) - r_shoulderVec;
-        Vector3 l_shoulderToElbow = new Vector3(l_elbow.X, l_elbow.Y, l_elbow.Z) - l_shoulderVec;
-        Vector3 r_shoulderToElbow = new Vector3(r_elbow.X, r_elbow.Y, r_elbow.Z) - r_shoulderVec;
-        Vector3 l_shoulderToHip = new Vector3(l_hip.X, l_hip.Y, l_hip.Z) - l_shoulderVec;
-        Vector3 r_shoulderToHip = new Vector3(r_hip.X, r_hip.Y, r_hip.Z) - r_shoulderVec;
+        Vector3 l_shoulderToWrist = new Vector3(l_wrist.x, l_wrist.y, l_wrist.z) - l_shoulderVec;
+        Vector3 r_shoulderToWrist = new Vector3(r_wrist.x, r_wrist.y, r_wrist.z) - r_shoulderVec;
+        Vector3 l_shoulderToElbow = new Vector3(l_elbow.x, l_elbow.y, l_elbow.z) - l_shoulderVec;
+        Vector3 r_shoulderToElbow = new Vector3(r_elbow.x, r_elbow.y, r_elbow.z) - r_shoulderVec;
+        Vector3 l_shoulderToHip = new Vector3(l_hip.x, l_hip.y, l_hip.z) - l_shoulderVec;
+        Vector3 r_shoulderToHip = new Vector3(r_hip.x, r_hip.y, r_hip.z) - r_shoulderVec;
 
         float l_wristAngle = Vector3.Angle(l_shoulderToWrist, l_shoulderToHip);
         float r_wristAngle = Vector3.Angle(r_shoulderToWrist, r_shoulderToHip);
@@ -105,11 +102,11 @@ public class InputSystem : MonoBehaviour
 
         if (avg_angle < avg_prev)
         {
-            bc.ApplyForce(forcePerDegree * -(avg_angle - avg_prev) * 1/(input.currTime - prev_time));
+            bc.ApplyForce(forcePerDegree * -(avg_angle - avg_prev) * 1/(input.currentTime - prev_time));
         }
 
         avg_prev = avg_angle;
-        prev_time = input.currTime;
+        prev_time = input.currentTime;
     }
 
     private void Pause(bool pause)

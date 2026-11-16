@@ -98,9 +98,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2043303524984080571}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4613240165052085733}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
       insertIndex: -1
@@ -201,19 +198,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
   m_PrefabInstance: {fileID: 4831552265030068238}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2043303524984080571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5750101658928731487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d645e08013d615446985054d356d795c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputSystem
-  testingWithoutMotion: 1
 --- !u!114 &4613240165052085733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +225,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2043303524984080571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InputSystem, Assembly-CSharp
         m_MethodName: OnFlap
         m_Mode: 0

@@ -51,7 +51,7 @@ function ResultToUnity(result, time) {
 
     const ResultJson = {};
     ResultJson.currentTime = time;
-    ResultJson.personDetected = result.landmarks.length === 0;
+    ResultJson.personDetected = result.landmarks.length > 0;
     ResultJson.landmarks = [];
     if (result.landmarks.length !== 0) {
         ResultJson.landmarks.push({ name: "l_wrist", ...pose[15] });
@@ -64,7 +64,7 @@ function ResultToUnity(result, time) {
         ResultJson.landmarks.push({ name: "r_hip", ...pose[24] });
     }
     
-    unityInstance.SendMessage("InputSystem", "JsonReceiver", JSON.stringify(result));
+    unityInstance.SendMessage("GameManager", "JsonReceiver", JSON.stringify(ResultJson));
 }
 
 startCamButton.addEventListener("click", startWebcam);
