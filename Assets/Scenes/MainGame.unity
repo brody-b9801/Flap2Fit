@@ -774,7 +774,7 @@ MonoBehaviour:
   barrierHeightDistribution: 6
   startDistFromPlayer: 10
   barrierPrefab: {fileID: 2980541365818312028, guid: 4572160f5b571fc489aeef5e4bb59f38, type: 3}
-  barrierInitMoveSpeed: 1
+  barrierInitMoveSpeed: 2
   speedIncreasePerPoint: 0.2
   maxSpeed: 30
   playerPrefab: {fileID: 5750101658928731487, guid: fe0c2f74bdea81c4c9c2379b489619ee, type: 3}
@@ -807,6 +807,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   scoreText: {fileID: 1759582039}
   respawnText: {fileID: 2013927744}
+  pulseScale: 1.2
+  pulseDuration: 0.2
 --- !u!1 &1093855700
 GameObject:
   m_ObjectHideFlags: 0

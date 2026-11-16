@@ -20,6 +20,7 @@ public class ScoreIncrementer : MonoBehaviour
         if (other.name != "BatMesh") return;
         score++;
         uiManager.UpdateScoreText(true, $"Score: {score}");
+        uiManager.PulseScore();
     }
     
 

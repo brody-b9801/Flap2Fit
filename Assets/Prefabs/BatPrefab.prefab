@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0cd1927412dc14db5b5062a31edf15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BirdController
+  impactPrefab: {fileID: 2165604380905953250, guid: bfa40aeec5d8f064daa3685c9f8c8cf7, type: 3}
 --- !u!54 &4531667890750578081
 Rigidbody:
   m_ObjectHideFlags: 0
