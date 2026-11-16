@@ -6,9 +6,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI respawnText;
+    [SerializeField] private GameObject pauseScreen;
+
     [SerializeField] private float pulseScale = 1.2f;
     [SerializeField] private float pulseDuration = 0.2f;
-    [SerializeField] private GameObject pauseScreen;
 
     private Coroutine pulseRoutine;
     private Vector3 scoreBaseScale = Vector3.one;
@@ -16,6 +17,7 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         if (scoreText != null) scoreBaseScale = scoreText.rectTransform.localScale;
+        pauseScreen.SetActive(false);
     }
 
     public void UpdateRespawnText(bool enabled, string input)

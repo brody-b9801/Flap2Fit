@@ -102,7 +102,8 @@ public class InputSystem : MonoBehaviour
 
         if (avg_angle < avg_prev)
         {
-            bc.ApplyForce(forcePerDegree * -(avg_angle - avg_prev) * 1/(input.currentTime - prev_time));
+            bc.ApplyForce(forcePerDegree * (avg_prev - avg_angle), ForceMode.Impulse);
+            bc.SetWingAngle(avg_angle);
         }
 
         avg_prev = avg_angle;

@@ -64,6 +64,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: BatPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6105892
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.35762775
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.44935817
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.54530776
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -67.942
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159645758500727406, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 66.544
+      objectReference: {fileID: 0}
     - target: {fileID: 6448678818323749754, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -80,6 +108,34 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[3]'
       value: 
       objectReference: {fileID: 2100000, guid: b9851c1bed3119a41ac69550e6db29ea, type: 2}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6105892
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.35762778
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.4493581
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5453077
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -67.942
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319058030882341072, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -66.544
+      objectReference: {fileID: 0}
     - target: {fileID: 7734243820929622593, guid: 7ec76240c0f16da418b6c8fbe636410b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -139,7 +195,7 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.01, y: 0.05, z: 0.01}
+  m_Size: {x: 0.01, y: 0.03, z: 0.01}
   m_Center: {x: 0, y: 0.02, z: 0}
 --- !u!1 &3359996183759384811 stripped
 GameObject:
@@ -188,10 +244,10 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.01, y: 0.05, z: 0.01}
+  m_Size: {x: 0.01, y: 0.03, z: 0.01}
   m_Center: {x: 0, y: 0.02, z: 0}
 --- !u!1 &5750101658928731487 stripped
 GameObject:
@@ -257,6 +313,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BirdController
   impactPrefab: {fileID: 2165604380905953250, guid: bfa40aeec5d8f064daa3685c9f8c8cf7, type: 3}
+  armL: {fileID: 349838856791328637}
+  armR: {fileID: 5346351302641053321}
 --- !u!54 &4531667890750578081
 Rigidbody:
   m_ObjectHideFlags: 0
