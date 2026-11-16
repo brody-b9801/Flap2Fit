@@ -1,0 +1,46 @@
+{
+    "version": 1,
+    "name": "TestingInputs",
+    "maps": [
+        {
+            "name": "Bird",
+            "id": "ef4c0198-1967-4ead-b549-f335cd90435c",
+            "actions": [
+                {
+                    "name": "Flap",
+                    "type": "Button",
+                    "id": "891d18c1-2f34-4f25-ad66-c0b753bb36cc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "18816459-ab7f-45b6-8d34-be7fd2f58417",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab0766d4-6652-4fcb-9ce6-b86afe9862bb",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
