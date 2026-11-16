@@ -22,6 +22,11 @@ public class BirdController : MonoBehaviour
             rb.AddForce(force * Vector3.up);
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!dead) Die();
+    }
+
     public void Die()
     {
         dead = true;

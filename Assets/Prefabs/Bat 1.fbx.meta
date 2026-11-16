@@ -1,9 +1,44 @@
 fileFormatVersion: 2
-guid: edc9263d46b95d549aa3295d9bfd4804
+guid: 7ec76240c0f16da418b6c8fbe636410b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: c4a9c9d3dd5343e4ebf83031462d3c4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyeBlack
+    second: {fileID: 2100000, guid: cbd9d545c6b639944bc90c10b941570d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyeBlack.001
+    second: {fileID: 2100000, guid: 529f25ef5fbe9b648a4066c8887a8996, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: bac500fe1c0d13046a8e8dd96923e3b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: f5e38ae6f88ecad46bed64f2a180ff80, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Nostril
+    second: {fileID: 2100000, guid: ed3485a442690f24b9f2282db607846f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WingWeb
+    second: {fileID: 2100000, guid: 659125cd30b0a134985d80e5f72c0f88, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
