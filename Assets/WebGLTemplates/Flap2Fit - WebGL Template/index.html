@@ -8,9 +8,15 @@
     <link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>">
     <script src="<<<TemplateData/diagnostics.js>>>"></script>
 #endif
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="mediapipe-capture.js"></script>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
     <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}} tabindex="-1" style="width: {{{ WIDTH }}}px; height: {{{ HEIGHT }}}px; background: {{{ BACKGROUND_FILENAME ? 'url(\'Build/' + BACKGROUND_FILENAME.replace(/'/g, '%27') + '\') center / cover' : BACKGROUND_COLOR }}}"></canvas>
+    <div class="webcamContainer">
+      <video id="webcam" autoplay playsinline muted></video>
+      <button id="startButton">Start Webcam</button>
+    </div>
 #if SHOW_DIAGNOSTICS
     <div id="unity-footer">
         <img id="diagnostics-icon" src="TemplateData/webmemd-icon.png">
@@ -62,6 +68,7 @@
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       }).then((unityInstance) => {
+        window.unityInstance = unityInstance;
 #if SHOW_DIAGNOSTICS
         document.getElementById("diagnostics-icon").onclick = () => {
             unityDiagnostics.openDiagnosticsDiv(unityInstance.GetMetricsInfo);

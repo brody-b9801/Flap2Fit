@@ -1,0 +1,31 @@
+.webcamContainer {
+    position: fixed;
+    width: 200px;
+    height: 150px;
+    z-index: 10;
+}
+
+#webcam {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #222;
+    transform: scaleX(-1);
+}
+
+#startButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: white;
+    background-color: chocolate;
+    border: 3px rgb(119, 50, 0) solid;
+    border-radius: 4px;
+    cursor: pointer;
+}
