@@ -6,18 +6,20 @@ public class BarrierController : MonoBehaviour
 {
     [Tooltip("Number of barriers to render at a time")]
     [Range(2, 10)]
-    [SerializeField, FormerlySerializedAs("numPipes")] private int numBarriers;
+    [SerializeField] private int numBarriers;
     [Tooltip("z value, distance in camera forward direction")]
-    [SerializeField, FormerlySerializedAs("distanceBetweenPipes")] private float distanceBetweenBarriers;
+    [SerializeField] private float distanceBetweenBarriers;
     [Tooltip("Vertical gap")]
-    [SerializeField, FormerlySerializedAs("gapBetweenPipes")] private float gapBetweenBarriers;
+    [SerializeField] private float gapBetweenBarriers;
     [Tooltip("z value, assumes player starts at (0,0,0)")]
-    [SerializeField, FormerlySerializedAs("pipeHeight")] private float barrierHeight;
+    [SerializeField] private float barrierHeight;
     [Tooltip("the min/max height of barriers")]
-    [SerializeField, FormerlySerializedAs("pipeHeightDistribution")] private float barrierHeightDistribution;
+    [SerializeField] private float barrierHeightDistribution;
     [SerializeField] private float startDistFromPlayer;
-    [SerializeField, FormerlySerializedAs("pipePrefab")] private GameObject barrierPrefab;
-    [SerializeField, FormerlySerializedAs("pipeInitMoveSpeed")] private float barrierInitMoveSpeed;
+    [SerializeField] private GameObject barrierPrefab;
+    [SerializeField] private float barrierInitMoveSpeed;
+    [SerializeField] private float speedIncreasePerPoint;
+    [SerializeField] private float maxSpeed;
     [SerializeField] private GameObject playerPrefab;
 
     struct barrierInfo
@@ -93,6 +95,8 @@ public class BarrierController : MonoBehaviour
 
     void Update()
     {
+        barrierMoveSpeed = Mathf.Min(barrierInitMoveSpeed + (ScoreIncrementer.getScore() * speedIncreasePerPoint), maxSpeed);
+
         BirdController bc = bird.GetComponent<BirdController>();
         if (bc.isDead())
         {

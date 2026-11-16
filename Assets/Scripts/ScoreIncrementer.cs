@@ -5,36 +5,34 @@ using UnityEngine.UI;
 public class ScoreIncrementer : MonoBehaviour
 {
     private static int score;
-    private static TextMeshProUGUI scoreText;
-    private static TextMeshProUGUI respawnText;
+    public static int getScore() => score;
+    private static UIManager uiManager;
+
 
     void Awake()
     {
-        scoreText = GameObject.Find("scoreCounter").GetComponent<TextMeshProUGUI>();
-        respawnText = GameObject.Find("respawnText").GetComponent<TextMeshProUGUI>();
-        respawnText.gameObject.SetActive(false);
+        uiManager = FindFirstObjectByType<UIManager>();
+        uiManager.UpdateRespawnText(false, "");
     }
 
     void OnTriggerExit(Collider other)
     {   
         if (other.name != "BatMesh") return;
         score++;
-        scoreText.text = $"Score: {score}";
+        uiManager.UpdateScoreText(true, $"Score: {score}");
     }
     
 
     public static void Die()
     {
-        respawnText.gameObject.SetActive(true);
-        respawnText.text = $"Final Score: {score}\nPress 'R' to respawn!";
-        scoreText.gameObject.SetActive(false);
+        uiManager.UpdateRespawnText(true, $"Final Score: {score}\nPress 'R' to respawn!");
+        uiManager.UpdateScoreText(false, $"Score: 0");
     }
 
     public static void Respawn()
     {
         score = 0;
-        respawnText.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(true);
-        scoreText.text = $"Score: {score}";
+        uiManager.UpdateRespawnText(false, "");
+        uiManager.UpdateScoreText(true, $"Score: {score}");
     }
 }

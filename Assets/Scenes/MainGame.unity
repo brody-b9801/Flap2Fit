@@ -521,6 +521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 973253246}
   - component: {fileID: 973253245}
+  - component: {fileID: 973253247}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -542,12 +543,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PipeController
   numBarriers: 8
   distanceBetweenBarriers: 5
-  gapBetweenBarriers: 8
+  gapBetweenBarriers: 3
   barrierHeight: 10
-  barrierHeightDistribution: 3
+  barrierHeightDistribution: 6
   startDistFromPlayer: 10
   barrierPrefab: {fileID: 2980541365818312028, guid: 4572160f5b571fc489aeef5e4bb59f38, type: 3}
   barrierInitMoveSpeed: 1
+  speedIncreasePerPoint: 0.2
+  maxSpeed: 30
   playerPrefab: {fileID: 5750101658928731487, guid: fe0c2f74bdea81c4c9c2379b489619ee, type: 3}
 --- !u!4 &973253246
 Transform:
@@ -564,6 +567,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &973253247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973253244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b039e3a56e8247140a0d2bb9f28e8949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  scoreText: {fileID: 1759582039}
+  respawnText: {fileID: 2013927744}
 --- !u!1 &1093855700
 GameObject:
   m_ObjectHideFlags: 0
