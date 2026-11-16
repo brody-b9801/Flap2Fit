@@ -37,7 +37,6 @@ public class BarrierController : MonoBehaviour
     private barrierInfo[] barriers;
     private Vector3 initialBarrierPose;
     private Transform bird;
-    private Transform cam;
     private float barrierMoveSpeed;
     private float initialBarrierOffset;
 
@@ -47,7 +46,6 @@ public class BarrierController : MonoBehaviour
 
     void Awake()
     {
-        cam = Camera.main.transform;
         ResetGame();
     }
 
@@ -89,6 +87,8 @@ public class BarrierController : MonoBehaviour
         
         if (bird) Destroy(bird.gameObject);
         bird = Instantiate(playerPrefab, Vector3.up * gapCenter, Quaternion.identity).transform;
+
+        ScoreIncrementer.Respawn();
     }
 
     void Update()
@@ -99,6 +99,7 @@ public class BarrierController : MonoBehaviour
             if (respawnInput())  {
                 ResetGame();
                 bc.respawn();
+                ScoreIncrementer.Respawn();
             }
             else return;
         }
@@ -124,7 +125,6 @@ public class BarrierController : MonoBehaviour
     void FixedUpdate()
     {
         if (bird.GetComponent<BirdController>().isDead()) return;
-        cam.position = bird.position - Vector3.forward * distanceBetweenBarriers * 1.5f;
         for (uint i = 0; i < numBarriers; i++)
         {
             ref barrierInfo currBarrier = ref barriers[i];

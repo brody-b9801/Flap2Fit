@@ -26,5 +26,6 @@ public class BirdController : MonoBehaviour
     {
         dead = true;
         rb.isKinematic = true;
+        ScoreIncrementer.Die();
     }
 }
