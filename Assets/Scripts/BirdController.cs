@@ -22,7 +22,7 @@ public class BirdController : MonoBehaviour
             rb.AddForce(force * Vector3.up);
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void Die()
     {
         dead = true;
         rb.isKinematic = true;

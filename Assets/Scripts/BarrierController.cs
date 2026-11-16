@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -52,6 +53,12 @@ public class BarrierController : MonoBehaviour
 
     private void ResetGame()
     {
+        if (barriers != null) {
+            foreach (barrierInfo b in barriers)
+            {
+                Destroy(b.barrier.gameObject);
+            }
+        }
         barriers = new barrierInfo[numBarriers];
         initialBarrierPose = Vector3.forward * startDistFromPlayer;
         for (uint i = 0; i < numBarriers; i++)
@@ -80,7 +87,7 @@ public class BarrierController : MonoBehaviour
         Renderer bottomR = barriers[0].barrier.GetChild(1).GetComponent<Renderer>();
         float gapCenter = (bottomR.bounds.max.y + topR.bounds.min.y) * 0.5f;
         
-        if (bird) Destroy(bird);
+        if (bird) Destroy(bird.gameObject);
         bird = Instantiate(playerPrefab, Vector3.up * gapCenter, Quaternion.identity).transform;
     }
 
@@ -89,7 +96,10 @@ public class BarrierController : MonoBehaviour
         BirdController bc = bird.GetComponent<BirdController>();
         if (bc.isDead())
         {
-            if (respawnInput()) bc.respawn();
+            if (respawnInput())  {
+                ResetGame();
+                bc.respawn();
+            }
             else return;
         }
 
