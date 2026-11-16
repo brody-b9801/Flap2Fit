@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI respawnText;
     [SerializeField] private float pulseScale = 1.2f;
     [SerializeField] private float pulseDuration = 0.2f;
+    [SerializeField] private GameObject pauseScreen;
 
     private Coroutine pulseRoutine;
     private Vector3 scoreBaseScale = Vector3.one;
@@ -28,6 +30,12 @@ public class UIManager : MonoBehaviour
         if (scoreText == null) return;
         scoreText.enabled = enabled;
         scoreText.text = input;
+    }
+
+    public void Pause(bool pause)
+    {
+        pauseScreen.SetActive(pause);
+        Time.timeScale = pause ? 0f : 1f;
     }
 
     public void PulseScore()
