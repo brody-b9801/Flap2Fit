@@ -1,7 +1,12 @@
-import { FilesetResolver, PoseLandmarker } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+import { FilesetResolver, PoseLandmarker, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
 
 const video = document.getElementById('webcam');
 const startCamButton = document.getElementById('startButton');
+const overlay = document.getElementById('overlay');
+const overlayCtx = overlay.getContext('2d');
+const drawingUtils = new DrawingUtils(overlayCtx);
+
+const TRACKED = new Set([11, 12, 13, 14, 15, 16, 23, 24]);
 
 let webcamRunning = false;
 let lastVideoTime = -1;
@@ -25,6 +30,8 @@ async function startWebcam() {
         video.srcObject = stream;
         startCamButton.style.display = "none";
         video.addEventListener("loadeddata", () => {
+            overlay.width = video.videoWidth;
+            overlay.height = video.videoHeight;
             webcamRunning = true;
             requestAnimationFrame(detectLoop);
         }, { once: true });
@@ -40,10 +47,22 @@ function detectLoop() {
     if (video.currentTime !== lastVideoTime) {
         lastVideoTime = video.currentTime;
         const result = poseLandmarker.detectForVideo(video, performance.now());
+        DrawPose(result);
         ResultToUnity(result, video.currentTime)
     }
 
     requestAnimationFrame(detectLoop);
+}
+
+function DrawPose(result) {
+    overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+    for (const pose of result.landmarks) {
+        drawingUtils.drawConnectors(pose, PoseLandmarker.POSE_CONNECTIONS, { color: "#ffffff88", lineWidth: 2 });
+        drawingUtils.drawLandmarks(pose, {
+            color: (data) => TRACKED.has(data.index) ? "#00ff88" : "#ffffff88",
+            radius: (data) => TRACKED.has(data.index) ? 5 : 2,
+        });
+    }
 }
 
 function ResultToUnity(result, time) {
