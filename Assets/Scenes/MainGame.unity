@@ -226,7 +226,7 @@ Transform:
   m_GameObject: {fileID: 100627114}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 30, z: 0}
+  m_LocalPosition: {x: 0, y: 25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 35}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -875,7 +875,7 @@ MonoBehaviour:
   numBarriers: 8
   distanceBetweenBarriers: 10
   gapBetweenBarriers: 6
-  barrierHeight: 12.5
+  barrierHeight: 17.5
   barrierHeightDistribution: 6
   startDistFromPlayer: 10
   barrierPrefab: {fileID: 2980541365818312028, guid: 4572160f5b571fc489aeef5e4bb59f38, type: 3}

@@ -316,8 +316,9 @@ MonoBehaviour:
   armL: {fileID: 349838856791328637}
   armR: {fileID: 5346351302641053321}
   gravity: 9.81
-  maxRiseSpeed: 6
+  maxRiseSpeed: 7
   maxFallSpeed: 8
+  flapFallCancelSpeed: 2
   flapAxis: {x: 0, y: 0, z: 1}
   flapDirection: 1
   flatArmAngle: 70
