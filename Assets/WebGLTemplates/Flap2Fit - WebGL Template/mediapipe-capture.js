@@ -65,12 +65,15 @@ function DrawPose(result) {
     }
 }
 
-// Only send the fields Unity reads (no z)
 function Landmark(name, p) {
-    return { name, x: p.x, y: p.y, visibility: p.visibility };
+    const aspect = video.videoWidth / video.videoHeight;
+    return { name, x: p.x * aspect, y: p.y, visibility: p.visibility };
 }
 
 function ResultToUnity(result) {
+    // Unity may still be loading if the webcam was started early
+    if (!window.unityInstance) return;
+
     const pose = result.landmarks[0];
 
     const ResultJson = {};

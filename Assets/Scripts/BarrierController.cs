@@ -43,7 +43,7 @@ public class BarrierController : MonoBehaviour
     private float initialBarrierOffset;
 
     private float getRandHeight() => Random.Range(-barrierHeightDistribution, barrierHeightDistribution);
-    private bool respawnInput() => Input.GetKeyDown(KeyCode.R);
+    private bool respawnInput() => Input.GetKeyDown(KeyCode.R) || InputSystem.clap;
     public GameObject getBird() => bird.gameObject;
 
     void Awake()

@@ -9,8 +9,23 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private bool testingWithoutMotion;
     [Tooltip("Upward force added to bird per degree decrease in angle between arm and body")]
     [SerializeField] private float forcePerDegree;
+    [Tooltip("Minimum angle decrease (degrees) per frame before force is applied; filters out landmark jitter")]
+    [SerializeField] private float flapDeadZone = 1.5f;
+    [Tooltip("Wrists closer than this fraction of shoulder width count as a clap (respawn)")]
+    [SerializeField] private float clapThreshold = 0.4f;
 
-    private BirdController bc;
+    private BarrierController barrierController;
+    private BirdController cachedBird;
+    public static bool clap;
+
+    private BirdController bc
+    {
+        get
+        {
+            if (cachedBird == null) cachedBird = barrierController.getBird().GetComponent<BirdController>();
+            return cachedBird;
+        }
+    }
     private bool flapDown = false;
     private bool paused = false;
     private static UIManager uiManager;
@@ -38,7 +53,7 @@ public class InputSystem : MonoBehaviour
     {
         uiManager = FindFirstObjectByType<UIManager>();
         DontDestroyOnLoad(this);
-        bc = GetComponent<BarrierController>().getBird().GetComponent<BirdController>();
+        barrierController = GetComponent<BarrierController>();
     }
 
     public void OnFlap(InputAction.CallbackContext context)
@@ -73,10 +88,11 @@ public class InputSystem : MonoBehaviour
         if (!l_shoulder.visible || !l_hip.visible || !l_wrist.visible || !l_elbow.visible
             || !r_shoulder.visible || !r_hip.visible || !r_wrist.visible || !r_elbow.visible)
         {
-            Pause(true);
+            if (!paused) Pause(true);
             return;
         }
         
+        bool justResumed = paused;
         if (paused) Pause(false);
         Vector2 l_shoulderVec = new Vector2(l_shoulder.x, l_shoulder.y);
         Vector2 r_shoulderVec = new Vector2(r_shoulder.x, r_shoulder.y);
@@ -97,14 +113,19 @@ public class InputSystem : MonoBehaviour
         float r_angle = (r_wristAngle + r_elbowAngle) / 2;
         float avg_angle = (l_angle + r_angle) / 2;
 
-        if (avg_angle < avg_prev)
+        if (justResumed) avg_prev = avg_angle;
+
+        if (avg_prev - avg_angle > flapDeadZone)
         {
-            bc.ApplyForce(forcePerDegree * (avg_angle - avg_prev), ForceMode.Force);
-            Debug.Log(forcePerDegree * (avg_angle - avg_prev));
+            float force = forcePerDegree * -(avg_angle - avg_prev);
+            bc.ApplyForce(force, ForceMode.Impulse);
         }
 
-        bc.SetWingAngle(avg_angle);
+        float shoulderWidth = (l_shoulderVec - r_shoulderVec).magnitude;
+        float wristDist = (new Vector2(l_wrist.x, l_wrist.y) - new Vector2(r_wrist.x, r_wrist.y)).magnitude;
+        clap = wristDist < shoulderWidth * clapThreshold;
 
+        bc.SetWingAngle(avg_angle);
         avg_prev = avg_angle;
     }
 

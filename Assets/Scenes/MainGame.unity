@@ -962,7 +962,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputSystem
   testingWithoutMotion: 0
-  forcePerDegree: 1
+  forcePerDegree: 0.1
+  flapDeadZone: 1.5
 --- !u!1 &1093855700
 GameObject:
   m_ObjectHideFlags: 0
