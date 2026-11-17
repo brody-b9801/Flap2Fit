@@ -1,15 +1,20 @@
 .layout {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#unity-canvas {
+    width: 60vw;
+    aspect-ratio: 16 / 9;
 }
 
 .webcamContainer {
     position: relative;
-    flex-shrink: 0;
-    width: 533px;
-    height: 300px;
+    width: 40vw;
+    aspect-ratio: 16 / 9;
     z-index: 10;
 }
 
@@ -21,6 +26,7 @@
     object-fit: cover;
     background-color: #222;
     transform: scaleX(-1);
+    visibility: hidden;
 }
 
 #overlay {
@@ -31,10 +37,11 @@
     object-fit: cover;
     transform: scaleX(-1);
     pointer-events: none;
+    visibility: hidden;
 }
 
 #startButton {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(this);
         if (scoreText != null) scoreBaseScale = scoreText.rectTransform.localScale;
         pauseScreen.SetActive(false);
     }
@@ -49,7 +50,7 @@ public class UIManager : MonoBehaviour
             deadOnPause = false;
             respawnText.gameObject.SetActive(true);
         }
-        
+
         Time.timeScale = pause ? 0f : 1f;
     }
 

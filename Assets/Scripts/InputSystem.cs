@@ -6,32 +6,42 @@ using UnityEngine.InputSystem;
 public class InputSystem : MonoBehaviour
 {
     [SerializeField] private bool testingWithoutMotion;
-    [Tooltip("Upward force added to bird per degree decrease in angle between arm and body")]
+    [Tooltip("Upward impulse added to bat per degree decrease in angle between arm and body")]
     [SerializeField] private float forcePerDegree;
+    [Tooltip("Maximum impulse a single physics step can apply; stops bursts of messages launching the bat")]
+    [SerializeField] private float maxFlapImpulse = 10f;
     [Tooltip("Minimum angle decrease (degrees) per frame before force is applied; filters out landmark jitter")]
     [SerializeField] private float flapDeadZone = 1.5f;
+    [Tooltip("Arm angle smoothing time constant (seconds), 0 = none; larger = smoother but laggier. Independent of camera FPS")]
+    [Min(0f)]
+    [SerializeField] private float angleSmoothingTime = 0.05f;
     [Tooltip("Wrists closer than this fraction of shoulder width count as a clap (respawn)")]
     [SerializeField] private float clapThreshold = 0.4f;
 
     private bool onStartScreen = true;
 
     private BarrierController barrierController;
-    private BirdController cachedBird;
+    private BatController cachedBat;
     public static bool clap;
 
-    private BirdController bc
+    private BatController bc
     {
         get
         {
-            if (cachedBird == null) cachedBird = barrierController.getBird().GetComponent<BirdController>();
-            return cachedBird;
+            if (cachedBat != null) return cachedBat;
+            if (barrierController == null) barrierController = FindFirstObjectByType<BarrierController>();
+            if (barrierController == null) return null;
+            GameObject bat = barrierController.getBat();
+            if (bat != null) cachedBat = bat.GetComponent<BatController>();
+            return cachedBat;
         }
     }
     private bool flapDown = false;
     private bool paused = false;
     private static UIManager uiManager;
     private float avg_prev;
-    private float flapForce;
+    private float smoothedAngle;
+    private float pendingImpulse;
     private float lastMessageTime;
 
     [System.Serializable]
@@ -56,7 +66,6 @@ public class InputSystem : MonoBehaviour
     {
         uiManager = FindFirstObjectByType<UIManager>();
         DontDestroyOnLoad(this);
-        barrierController = GetComponent<BarrierController>();
     }
 
     public void OnFlap(InputAction.CallbackContext context)
@@ -114,17 +123,24 @@ public class InputSystem : MonoBehaviour
 
         float l_angle = (l_wristAngle + l_elbowAngle) / 2;
         float r_angle = (r_wristAngle + r_elbowAngle) / 2;
-        float avg_angle = (l_angle + r_angle) / 2;
-
-        if (justResumed) avg_prev = avg_angle;
+        float rawAngle = (l_angle + r_angle) / 2;
 
         float interval = Time.time - lastMessageTime;
         lastMessageTime = Time.time;
 
-        if (avg_prev - avg_angle > flapDeadZone && interval > 0f)
-            flapForce = forcePerDegree * (avg_prev - avg_angle) / interval;
+        if (justResumed || angleSmoothingTime <= 0f)
+            smoothedAngle = rawAngle;
         else
-            flapForce = 0f;
+            smoothedAngle = Mathf.Lerp(smoothedAngle, rawAngle, 1f - Mathf.Exp(-interval / angleSmoothingTime));
+        float avg_angle = smoothedAngle;
+
+        if (justResumed) avg_prev = avg_angle;
+
+        // Impulse = force * time, so the per-message interval cancels out: each degree of
+        // downstroke adds a fixed impulse regardless of camera FPS or message timing.
+        float downstroke = avg_prev - avg_angle;
+        if (downstroke > flapDeadZone)
+            pendingImpulse += forcePerDegree * downstroke;
 
         float shoulderWidth = (l_shoulderVec - r_shoulderVec).magnitude;
         float wristDist = (new Vector2(l_wrist.x, l_wrist.y) - new Vector2(r_wrist.x, r_wrist.y)).magnitude;
@@ -136,24 +152,31 @@ public class InputSystem : MonoBehaviour
             onStartScreen = false;
         }
 
-        bc.SetWingAngle(avg_angle);
+        BatController bat = bc;
+        if (bat != null) bat.SetWingAngle(l_angle, r_angle);
         avg_prev = avg_angle;
     }
 
     private void Pause(bool pause)
     {
         paused = pause;
-        flapForce = 0f;
+        pendingImpulse = 0f;
         uiManager.Pause(pause);
     }
 
     void FixedUpdate()
     {
-        if (flapForce > 0f) bc.ApplyForce(flapForce, ForceMode.Force);
+        if (pendingImpulse <= 0f) return;
+        float impulse = Mathf.Min(pendingImpulse, maxFlapImpulse);
+        pendingImpulse = 0f;
+        BatController bat = bc;
+        if (bat != null) bat.ApplyForce(impulse, ForceMode.Impulse);
     }
 
     void Update()
     {
-        if (testingWithoutMotion && flapDown) bc.ApplyForce(20f * Time.deltaTime * 60f);
+        if (!testingWithoutMotion || !flapDown) return;
+        BatController bat = bc;
+        if (bat != null) bat.ApplyForce(20f * Time.deltaTime * 60f);
     }
 }

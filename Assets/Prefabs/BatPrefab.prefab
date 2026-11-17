@@ -315,6 +315,14 @@ MonoBehaviour:
   impactPrefab: {fileID: 2165604380905953250, guid: bfa40aeec5d8f064daa3685c9f8c8cf7, type: 3}
   armL: {fileID: 349838856791328637}
   armR: {fileID: 5346351302641053321}
+  gravity: 9.81
+  maxRiseSpeed: 6
+  maxFallSpeed: 8
+  flapAxis: {x: 0, y: 0, z: 1}
+  flapDirection: 1
+  flatArmAngle: 70
+  minArmAngle: 0
+  maxArmAngle: 180
 --- !u!54 &4531667890750578081
 Rigidbody:
   m_ObjectHideFlags: 0

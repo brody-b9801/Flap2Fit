@@ -30,6 +30,8 @@ async function startWebcam() {
         video.srcObject = stream;
         startCamButton.style.display = "none";
         document.getElementById("unity-canvas").style.visibility = "visible";
+        video.style.visibility = "visible";
+        overlay.style.visibility = "visible";
         video.addEventListener("loadeddata", () => {
             overlay.width = video.videoWidth;
             overlay.height = video.videoHeight;
