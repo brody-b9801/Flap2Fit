@@ -48,7 +48,7 @@ function detectLoop() {
         lastVideoTime = video.currentTime;
         const result = poseLandmarker.detectForVideo(video, performance.now());
         DrawPose(result);
-        ResultToUnity(result, video.currentTime)
+        ResultToUnity(result)
     }
 
     requestAnimationFrame(detectLoop);
@@ -65,22 +65,26 @@ function DrawPose(result) {
     }
 }
 
-function ResultToUnity(result, time) {
+// Only send the fields Unity reads (no z)
+function Landmark(name, p) {
+    return { name, x: p.x, y: p.y, visibility: p.visibility };
+}
+
+function ResultToUnity(result) {
     const pose = result.landmarks[0];
 
     const ResultJson = {};
-    ResultJson.currentTime = time;
     ResultJson.personDetected = result.landmarks.length > 0;
     ResultJson.landmarks = [];
     if (result.landmarks.length !== 0) {
-        ResultJson.landmarks.push({ name: "l_wrist", ...pose[15] });
-        ResultJson.landmarks.push({ name: "r_wrist", ...pose[16] });
-        ResultJson.landmarks.push({ name: "l_elbow", ...pose[13] });
-        ResultJson.landmarks.push({ name: "r_elbow", ...pose[14] });
-        ResultJson.landmarks.push({ name: "l_shoulder", ...pose[11] });
-        ResultJson.landmarks.push({ name: "r_shoulder", ...pose[12] });
-        ResultJson.landmarks.push({ name: "l_hip", ...pose[23] });
-        ResultJson.landmarks.push({ name: "r_hip", ...pose[24] });
+        ResultJson.landmarks.push(Landmark("l_wrist", pose[15]));
+        ResultJson.landmarks.push(Landmark("r_wrist", pose[16]));
+        ResultJson.landmarks.push(Landmark("l_elbow", pose[13]));
+        ResultJson.landmarks.push(Landmark("r_elbow", pose[14]));
+        ResultJson.landmarks.push(Landmark("l_shoulder", pose[11]));
+        ResultJson.landmarks.push(Landmark("r_shoulder", pose[12]));
+        ResultJson.landmarks.push(Landmark("l_hip", pose[23]));
+        ResultJson.landmarks.push(Landmark("r_hip", pose[24]));
     }
     
     unityInstance.SendMessage("GameManager", "JsonReceiver", JSON.stringify(ResultJson));

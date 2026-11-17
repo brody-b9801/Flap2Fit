@@ -41,7 +41,7 @@ public class BirdController : MonoBehaviour
         if (!dead)
         {
             armL.transform.rotation = Quaternion.Euler(new Vector3(-67.942f, angle - 40, 66.544f));
-            armL.transform.rotation = Quaternion.Euler(new Vector3(-67.942f, angle - 90, -66.544f));
+            armR.transform.rotation = Quaternion.Euler(new Vector3(-67.942f, angle - 90, -66.544f));
         }
 
     }
