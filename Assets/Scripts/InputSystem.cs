@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Threading;
-using Unity.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +12,8 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private float flapDeadZone = 1.5f;
     [Tooltip("Wrists closer than this fraction of shoulder width count as a clap (respawn)")]
     [SerializeField] private float clapThreshold = 0.4f;
+
+    private bool onStartScreen = true;
 
     private BarrierController barrierController;
     private BirdController cachedBird;
@@ -30,6 +31,8 @@ public class InputSystem : MonoBehaviour
     private bool paused = false;
     private static UIManager uiManager;
     private float avg_prev;
+    private float flapForce;
+    private float lastMessageTime;
 
     [System.Serializable]
     private struct landmark
@@ -115,15 +118,23 @@ public class InputSystem : MonoBehaviour
 
         if (justResumed) avg_prev = avg_angle;
 
-        if (avg_prev - avg_angle > flapDeadZone)
-        {
-            float force = forcePerDegree * -(avg_angle - avg_prev);
-            bc.ApplyForce(force, ForceMode.Impulse);
-        }
+        float interval = Time.time - lastMessageTime;
+        lastMessageTime = Time.time;
+
+        if (avg_prev - avg_angle > flapDeadZone && interval > 0f)
+            flapForce = forcePerDegree * (avg_prev - avg_angle) / interval;
+        else
+            flapForce = 0f;
 
         float shoulderWidth = (l_shoulderVec - r_shoulderVec).magnitude;
         float wristDist = (new Vector2(l_wrist.x, l_wrist.y) - new Vector2(r_wrist.x, r_wrist.y)).magnitude;
         clap = wristDist < shoulderWidth * clapThreshold;
+        
+        if (clap && onStartScreen)
+        {
+            SceneManager.LoadScene("MainGame");
+            onStartScreen = false;
+        }
 
         bc.SetWingAngle(avg_angle);
         avg_prev = avg_angle;
@@ -132,7 +143,13 @@ public class InputSystem : MonoBehaviour
     private void Pause(bool pause)
     {
         paused = pause;
+        flapForce = 0f;
         uiManager.Pause(pause);
+    }
+
+    void FixedUpdate()
+    {
+        if (flapForce > 0f) bc.ApplyForce(flapForce, ForceMode.Force);
     }
 
     void Update()

@@ -29,6 +29,7 @@ async function startWebcam() {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         video.srcObject = stream;
         startCamButton.style.display = "none";
+        document.getElementById("unity-canvas").style.visibility = "visible";
         video.addEventListener("loadeddata", () => {
             overlay.width = video.videoWidth;
             overlay.height = video.videoHeight;

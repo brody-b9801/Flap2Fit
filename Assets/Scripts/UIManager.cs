@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
 
     private Coroutine pulseRoutine;
     private Vector3 scoreBaseScale = Vector3.one;
+    private bool deadOnPause = false;
 
     void Awake()
     {
@@ -37,6 +38,18 @@ public class UIManager : MonoBehaviour
     public void Pause(bool pause)
     {
         pauseScreen.SetActive(pause);
+        if (pause && respawnText.IsActive())
+        {
+            deadOnPause = true;
+            respawnText.gameObject.SetActive(false);
+        } 
+
+        if (!pause && deadOnPause)
+        {
+            deadOnPause = false;
+            respawnText.gameObject.SetActive(true);
+        }
+        
         Time.timeScale = pause ? 0f : 1f;
     }
 
