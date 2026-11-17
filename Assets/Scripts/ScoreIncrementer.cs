@@ -26,7 +26,7 @@ public class ScoreIncrementer : MonoBehaviour
 
     public static void Die()
     {
-        uiManager.UpdateRespawnText(true, $"Final Score: {score}\nPress 'R' to respawn!");
+        uiManager.UpdateRespawnText(true, $"Final Score: {score}\nPress 'R' or clap to respawn!");
         uiManager.UpdateScoreText(false, $"Score: 0");
     }
 

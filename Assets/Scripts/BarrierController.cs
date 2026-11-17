@@ -38,13 +38,13 @@ public class BarrierController : MonoBehaviour
 
     private barrierInfo[] barriers;
     private Vector3 initialBarrierPose;
-    private Transform bird;
+    private Transform bat;
     private float barrierMoveSpeed;
     private float initialBarrierOffset;
 
     private float getRandHeight() => Random.Range(-barrierHeightDistribution, barrierHeightDistribution);
-    private bool respawnInput() => Input.GetKeyDown(KeyCode.R);
-    public GameObject getBird() => bird.gameObject;
+    private bool respawnInput() => Input.GetKeyDown(KeyCode.R) || InputSystem.clap;
+    public GameObject getBat() => bat.gameObject;
 
     void Awake()
     {
@@ -87,8 +87,8 @@ public class BarrierController : MonoBehaviour
         Renderer bottomR = barriers[0].barrier.GetChild(1).GetComponent<Renderer>();
         float gapCenter = (bottomR.bounds.max.y + topR.bounds.min.y) * 0.5f;
         
-        if (bird) Destroy(bird.gameObject);
-        bird = Instantiate(playerPrefab, Vector3.up * gapCenter, Quaternion.identity).transform;
+        if (bat) Destroy(bat.gameObject);
+        bat = Instantiate(playerPrefab, Vector3.up * gapCenter, Quaternion.identity).transform;
 
         ScoreIncrementer.Respawn();
     }
@@ -97,7 +97,7 @@ public class BarrierController : MonoBehaviour
     {
         barrierMoveSpeed = Mathf.Min(barrierInitMoveSpeed + (ScoreIncrementer.getScore() * speedIncreasePerPoint), maxSpeed);
 
-        BirdController bc = bird.GetComponent<BirdController>();
+        BatController bc = bat.GetComponent<BatController>();
         if (bc.isDead())
         {
             if (respawnInput())  {
@@ -128,7 +128,7 @@ public class BarrierController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (bird.GetComponent<BirdController>().isDead()) return;
+        if (bat.GetComponent<BatController>().isDead()) return;
         for (uint i = 0; i < numBarriers; i++)
         {
             ref barrierInfo currBarrier = ref barriers[i];

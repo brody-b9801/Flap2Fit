@@ -1,0 +1,88 @@
+/* Widths: gap + canvas + gap + webcam + gap = 100vw */
+:root {
+    --gap: 2vw;
+    --canvas-w: 57vw;
+    --webcam-w: 37vw;
+    --canvas-h: calc(var(--canvas-w) * 9 / 16);
+}
+
+html, body {
+    background-color: #1e1e1e;
+    font-family: system-ui, sans-serif;
+}
+
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap);
+    height: 100vh;
+    overflow: hidden;
+}
+
+#unity-canvas,
+.webcamContainer.active {
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+#unity-canvas {
+    width: var(--canvas-w);
+    aspect-ratio: 16 / 9;
+}
+
+/* Same height as the game canvas; becomes a black panel once the webcam starts */
+.webcamContainer {
+    position: relative;
+    width: var(--webcam-w);
+    height: var(--canvas-h);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.webcamContainer.active {
+    background-color: #000;
+}
+
+#webcam {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scaleX(-1);
+    visibility: hidden;
+}
+
+#overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scaleX(-1);
+    pointer-events: none;
+    visibility: hidden;
+}
+
+#startButton {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    padding: 16px 32px;
+    font-size: 28px;
+    color: white;
+    background-color: chocolate;
+    border: 3px rgb(119, 50, 0) solid;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.15s, transform 0.15s;
+}
+
+#startButton:hover {
+    background-color: #e07a2e;
+    transform: translate(-50%, -50%) scale(1.05);
+}
